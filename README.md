@@ -16,7 +16,7 @@
 5. В строках 29-35 через POST запрос приходит выбранный часовой пояс клиентом. Данные строки опциональны, их можно удалить.
 6. Пояснение к строке 46 - в дополнительно поле лида сохранятся ID пользователя SendPulse для будущей автоматизации. Автоматизация рассмотрена в https://github.com/thnik911/SendMessageSendPulse
 7. Строка 48 хранит дополинтельные сведения об источнике, которые приходят из POST запроса. Строка опциональная, можно удалить.
-8. Делаем POST с помощью внешней системы, либо вручную в строке бразуера: https://yourdomain.com/path/leadAddFromTG.php?phone=79001112233&email=test@test.ru&name=Тест&telegramID={{contact_id}}&source={{$bot_id}}&source2={{source}}
+8. Делаем POST с помощью внешней системы, либо вручную в строке бразуера: https://yourdomain.com/path/leadAddFromTG.php?phone=79001112233&email=test@test.ru&name=Тест&telegramID=123&source=BotFromTG&source2=НовыйЛендинг
 
 
 **Переменные передаваемые в POST запросе:**
