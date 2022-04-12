@@ -1,8 +1,7 @@
 <?php
-ini_set("display_errors","1");
-ini_set("display_startup_errors","1");
+ini_set("display_errors", "1");
+ini_set("display_startup_errors", "1");
 ini_set('error_reporting', E_ALL);
-writetolog($_REQUEST, 'new request');
 
 
 $name = $_REQUEST['name'];
@@ -14,46 +13,47 @@ $source2 = $_REQUEST['source2'];
 $city = $_REQUEST['city'];
 
 //AUTH Б24
-require_once('auth.php');
+require_once 'auth.php';
 
-if($source == 'BotFromVK'){
+if ($source == 'BotFromVK') {
     $sourceForB24 = 'STORE';
-}elseif($source == 'BotFromFB'){
+} elseif ($source == 'BotFromFB') {
     $sourceForB24 = 96;
-}elseif($source == 'BotFromTG'){
+} elseif ($source == 'BotFromTG') {
     $sourceForB24 = 'CALLBACK';
-}elseif($source == 'BotFromInsta'){
+} elseif ($source == 'BotFromInsta') {
     $sourceForB24 = 97;
 }
 
-if($city == 'Москва'){
+if ($city == 'Москва') {
     $cityForB24 = 1216;
-}elseif($city == 'Москва +3'){
+} elseif ($city == 'Москва +3') {
     $cityForB24 = 1217;
-}elseif($city == 'Москва +6'){
+} elseif ($city == 'Москва +6') {
     $cityForB24 = 1218;
 }
 
 $leadAdd = executeREST(
     'crm.lead.add',
     array(
-            'fields' => array(
-                'TITLE' => $name,
-                'NAME' => $name,
-                //'COMMENTS' => $source,
-                'PHONE' => array( array( "VALUE" => $phone, "VALUE_TYPE" => "WORK" ) ),
-                'EMAIL' => array( array( "VALUE" => $email, "VALUE_TYPE" => "WORK" ) ),
-                'UF_USERID_TELEGRAM' => $telegramID,
-                'SOURCE_ID' => $sourceForB24,
-                'SOURCE_DESCRIPTION' => $source2,
-                'UF_CRM_1643981451' => $cityForB24,
+        'fields' => array(
+            'TITLE' => $name,
+            'NAME' => $name,
+            //'COMMENTS' => $source,
+            'PHONE' => array(array("VALUE" => $phone, "VALUE_TYPE" => "WORK")),
+            'EMAIL' => array(array("VALUE" => $email, "VALUE_TYPE" => "WORK")),
+            'UF_USERID_TELEGRAM' => $telegramID,
+            'SOURCE_ID' => $sourceForB24,
+            'SOURCE_DESCRIPTION' => $source2,
+            'UF_CRM_1643981451' => $cityForB24,
 
-            ),
         ),
-$domain, $auth, $user);
+    ),
+    $domain, $auth, $user);
 
-function executeREST ($method, array $params, $domain, $auth, $user) {
-    $queryUrl = 'https://'.$domain.'/rest/'.$user.'/'.$auth.'/'.$method.'.json';
+function executeREST($method, array $params, $domain, $auth, $user)
+{
+    $queryUrl = 'https://' . $domain . '/rest/' . $user . '/' . $auth . '/' . $method . '.json';
     $queryData = http_build_query($params);
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -68,14 +68,13 @@ function executeREST ($method, array $params, $domain, $auth, $user) {
     curl_close($curl);
 }
 
-function writeToLog($data, $title = '') {
-$log = "\n------------------------\n";
-$log .= date("Y.m.d G:i:s") . "\n";
-$log .= (strlen($title) > 0 ? $title : 'DEBUG') . "\n";
-$log .= print_r($data, 1);
-$log .= "\n------------------------\n";
-file_put_contents(getcwd() . '/logs/leadAddFromTG.log', $log, FILE_APPEND);
-return true;
+function writeToLog($data, $title = '')
+{
+    $log = "\n------------------------\n";
+    $log .= date("Y.m.d G:i:s") . "\n";
+    $log .= (strlen($title) > 0 ? $title : 'DEBUG') . "\n";
+    $log .= print_r($data, 1);
+    $log .= "\n------------------------\n";
+    file_put_contents(getcwd() . '/logs/leadAddFromTG.log', $log, FILE_APPEND);
+    return true;
 }
-
-?>
